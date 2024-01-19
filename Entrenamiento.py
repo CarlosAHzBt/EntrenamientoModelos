@@ -8,10 +8,10 @@ else:
 
 def train_model():
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
-    model = YOLO("yolov8n-cls.pt")
+    model = YOLO("yolov8n.pt")
 
-    model.train(data=r"C:\Users\carlo\PycharmProjects\PruebaSegmentacion\Imagenes\IMAGENES PARA MODELO v4\Organizado",
-                epochs=50, batch=8, imgsz=848)
+    model.train(data=r"data.yaml",
+                epochs=1000, batch=8, imgsz=848)
 
 if __name__ == '__main__':
     train_model()

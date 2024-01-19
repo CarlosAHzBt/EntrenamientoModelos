@@ -30,9 +30,9 @@ for filename in os.listdir(source_folder):
             if DeteccionGanadora == 1:
                 image.save(os.path.join(target_folder_high_conf, filename))
             elif DeteccionGanadora == 0:
-                image.save(os.path.join('CalleBien', filename))
+                image.save(os.path.join('ImagenesResultados/CalleBien', filename))
             elif DeteccionGanadora == 2:
-                image.save(os.path.join('Grietas', filename))
+                image.save(os.path.join('ImagenesResultados/Grietas', filename))
         else:
             # If the top prediction is below the confidence threshold, save to a separate folder
-            image.save(os.path.join('NoIdentificadas', filename))
+            image.save(os.path.join('ImagenesResultados/NoIdentificadas', filename))
