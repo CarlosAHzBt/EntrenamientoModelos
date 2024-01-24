@@ -3,17 +3,17 @@ from PIL import Image
 import os
 
 # Load YOLO model
-model = YOLO(r"runs\classify\train3\weights\best.pt")
+model = YOLO(r"E:\Modelo Clasificacion\ModeloV5\train\weights\best.pt")
 
 # Paths to your image folders
-source_folder = r'C:\Users\PC\Documents\PuntoMinimo\Datos_Extraccion'
-target_folder_high_conf = 'ImagenesDeLaClasificacion/Baches'
+source_folder = r'E:\Imagenes\Imagenes - copia'
+target_folder_high_conf = r'E:\ImagenesClasificacionPorModelos\ModeloV5\ImagenesResultados\BachesPrueba2'
 
 # Ensure target folders exist
 os.makedirs(target_folder_high_conf, exist_ok=True)
-os.makedirs('ImagenesDeLaClasificacion/CalleBien' , exist_ok=True)
-os.makedirs('ImagenesDeLaClasificacion/Grietas' , exist_ok=True)
-os.makedirs('ImagenesDeLaClasificacion/NoIdentificadas' , exist_ok=True)
+os.makedirs(r'E:\ImagenesClasificacionPorModelos\ModeloV5\ImagenesResultados\CalleBien' , exist_ok=True)
+os.makedirs(r'E:\ImagenesClasificacionPorModelos\ModeloV5\ImagenesResultados\Grietas' , exist_ok=True)
+os.makedirs(r'E:\ImagenesClasificacionPorModelos\ModeloV5\ImagenesResultados\NoIdentificadas' , exist_ok=True)
 
 # Counters for each classification
 counters = {
@@ -26,7 +26,7 @@ counters = {
 # Function to save image with new name
 def save_image(image, folder, category):
     global counters
-    image.save(os.path.join(folder, f"{counters[category]}.jpg"))
+    image.save(os.path.join(folder, f"{counters[category]}.png"))
     counters[category] += 1
 
 # Iterate over each file in the folder and subfolders
@@ -42,13 +42,13 @@ for root, dirs, files in os.walk(source_folder):
             ConfianzaGanadora = results[0].probs.top1conf.item()
 
             # Check if detections were found
-            if ConfianzaGanadora >= 0.5:
+            if ConfianzaGanadora >= 0.6:
                 if DeteccionGanadora == 0:
                     save_image(image, target_folder_high_conf, "Baches")
                 elif DeteccionGanadora == 2:
-                    save_image(image, 'ImagenesDeLaClasificacion/CalleBien', "CalleBien")
+                    save_image(image, r'E:\ImagenesClasificacionPorModelos\ModeloV5\ImagenesResultados\CalleBien', "CalleBien")
                 elif DeteccionGanadora == 1:
-                    save_image(image, 'ImagenesDeLaClasificacion/Grietas', "Grietas")
+                    save_image(image, r'E:\ImagenesClasificacionPorModelos\ModeloV5\ImagenesResultados\Grietas', "Grietas")
             else:
                 # If the top prediction is below the confidence threshold, save to a separate folder
-                save_image(image, 'ImagenesDeLaClasificacion/NoIdentificadas', "NoIdentificadas")
+                save_image(image, r'E:\ImagenesClasificacionPorModelos\ModeloV5\ImagenesResultados\NoIdentificadas', "NoIdentificadas")

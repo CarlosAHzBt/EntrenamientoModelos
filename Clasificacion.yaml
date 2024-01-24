@@ -1,0 +1,8 @@
+train: C:\Users\carlo\PycharmProjects\PruebaSegmentacion\Imagenes\IMAGENES PARA MODELO
+  v4\Organizado\Train
+val: C:\Users\carlo\PycharmProjects\PruebaSegmentacion\Imagenes\IMAGENES PARA MODELO
+  v4\Organizado\Val
+
+nc: 3
+
+names: ["Bache", "Grieta", "Nada"]

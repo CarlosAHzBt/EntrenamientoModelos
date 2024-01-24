@@ -1,8 +1,7 @@
 from ultralytics import YOLO
 from PIL import Image
 import os
-import supervision as sv
-
+import json
 # Load YOLO model
 model = YOLO("runs/detect/train5/weights/best.pt")
 
@@ -37,7 +36,7 @@ for filename in os.listdir(source_folder):
                         for c in r.boxes.cls:
                             print(model.names[int(c)])
 
-                    # Save coordinates to a Json file
+                    # Save coordinates to a txt file
                     with open(os.path.join(coords_folder, filename.replace('.png', '.txt')), 'w') as f:
                         f.write(str(detections.tolist()))
 
