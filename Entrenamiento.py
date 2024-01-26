@@ -8,10 +8,10 @@ else:
 
 def train_model():
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
-    model = YOLO("yolov8n-cls.pt")   #Cambiar entre yolov8n-cls.pt y yolov8n.pt dependiendo si es para clasificacion o deteccion
+    model = YOLO("yolov8n.pt")   #Cambiar entre yolov8n-cls.pt y yolov8n.pt dependiendo si es para clasificacion o deteccion
 
-    model.train(data=r"C:\Users\carlo\Downloads\Prueba.v2i.folder",
-                epochs=70, batch=16, imgsz=848)
+    model.train(data=r"Imagenes/ImagenesModeloV2Segmentacion/Deteccion.v1i.yolov8/data.yaml",
+                epochs=500, batch=16, imgsz=848, patience=300)
 
 if __name__ == '__main__':
     train_model()
