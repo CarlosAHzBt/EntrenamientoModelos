@@ -10,11 +10,13 @@ model = YOLO(r'C:\Users\carlo\PycharmProjects\pythonProject4\EntrenamientoModelo
 root_folder = r'E:\Imagenes\Imagenes - copia'
 
 # Asegúrate de que exista la carpeta de destino para imágenes y txt
-target_folder_images = r'E:\Resultados Por Versiones De los modelos, Imagenes\ImgenesDeteccionPorModelos\ModeloV3\Bache'
-target_folder_txt = r'E:\Resultados Por Versiones De los modelos, Imagenes\ImgenesDeteccionPorModelos\ModeloV3\Coordenadas'
-target_folder_no_identificadas = r'E:\Resultados Por Versiones De los modelos, Imagenes\ImgenesDeteccionPorModelos\ModeloV3\NoIdentificadas'
+target_folder_images = r'E:\Resultados Por Versiones De los modelos, Imagenes\ImgenesDeteccionPorModelos\ModeloV4\Bache'
+target_folder_images_without_bounding_box = r'E:\Resultados Por Versiones De los modelos, Imagenes\ImgenesDeteccionPorModelos\ModeloV4\BacheSinBBox'
+target_folder_txt = r'E:\Resultados Por Versiones De los modelos, Imagenes\ImgenesDeteccionPorModelos\ModeloV4\Coordenadas'
+target_folder_no_identificadas = r'E:\Resultados Por Versiones De los modelos, Imagenes\ImgenesDeteccionPorModelos\ModeloV4\NoIdentificadas'
 
 os.makedirs(target_folder_images, exist_ok=True)
+os.makedirs(target_folder_images_without_bounding_box, exist_ok=True)
 os.makedirs(target_folder_txt, exist_ok=True)
 os.makedirs(target_folder_no_identificadas, exist_ok=True)
 
@@ -36,8 +38,15 @@ for foldername, subfolders, filenames in os.walk(root_folder):
                 detections = results[0].boxes.xyxy[0]  # Get detection bounding boxes
             except:
                 detections = 0
-            annotator = Annotator(frame, line_width=2, font_size=10)
+            annotator = Annotator(frame, line_width=4, font_size=10)
             if number >= 1:
+                # Guardar la imagen sin detecciones
+                output_folder_images_without_bounding_box = os.path.join(target_folder_images_without_bounding_box,
+                                                                         os.path.relpath(foldername, root_folder))
+                os.makedirs(output_folder_images_without_bounding_box, exist_ok=True)
+                output_path_images_without_bounding_box = os.path.join(output_folder_images_without_bounding_box,
+                                                                       filename)
+                cv2.imwrite(output_path_images_without_bounding_box, frame)
                 for r in results:
                     boxes = r.boxes
                     for box in boxes:
@@ -51,6 +60,9 @@ for foldername, subfolders, filenames in os.walk(root_folder):
                 os.makedirs(output_folder_images, exist_ok=True)
                 output_path_images = os.path.join(output_folder_images, filename)
                 cv2.imwrite(output_path_images, result_frame)
+
+
+
 
                 # Guardar el txt con las coordenadas de los baches
                 output_folder_txt = os.path.join(target_folder_txt, os.path.relpath(foldername, root_folder))
