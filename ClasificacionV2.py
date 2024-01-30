@@ -3,17 +3,21 @@ from PIL import Image
 import os
 
 # Load YOLO model
-model = YOLO(r"E:\Modelo Clasificacion\ModeloV5\train\weights\best.pt")
+model = YOLO(r"runs\classify\train3\weights\best.pt")
 
 # Paths to your image folders
-source_folder = r'E:\Imagenes\Imagenes - copia'
-target_folder_high_conf = r'E:\ImagenesClasificacionPorModelos\ModeloV5\ImagenesResultados\BachesPrueba2'
+source_folder = r'C:\Users\PC\Documents\PuntoMinimo\Imagenes - copia'
+target_folder_high_conf = r'Imagenes\ImagenesResultadosClasificacion\BachesPrueba2'
 
 # Ensure target folders exist
 os.makedirs(target_folder_high_conf, exist_ok=True)
-os.makedirs(r'E:\ImagenesClasificacionPorModelos\ModeloV5\ImagenesResultados\CalleBien' , exist_ok=True)
-os.makedirs(r'E:\ImagenesClasificacionPorModelos\ModeloV5\ImagenesResultados\Grietas' , exist_ok=True)
-os.makedirs(r'E:\ImagenesClasificacionPorModelos\ModeloV5\ImagenesResultados\NoIdentificadas' , exist_ok=True)
+os.makedirs(r'Imagenes\ImagenesResultadosClasificacion\\CalleBien' , exist_ok=True)
+os.makedirs(r'Imagenes\ImagenesResultadosClasificacion\\Grietas' , exist_ok=True)
+os.makedirs(r'Imagenes\ImagenesResultadosClasificacion\\NoIdentificadas' , exist_ok=True)
+dirCalleBien=r'Imagenes\ImagenesResultadosClasificacion\\CalleBien'
+dirGrietas=r'Imagenes\ImagenesResultadosClasificacion\\Grietas'
+dirBaches=r'Imagenes\ImagenesResultadosClasificacion\BachesPrueba2'
+dirNoIdentificadas=r'Imagenes\ImagenesResultadosClasificacion\\NoIdentificadas'
 
 # Counters for each classification
 counters = {
@@ -46,9 +50,9 @@ for root, dirs, files in os.walk(source_folder):
                 if DeteccionGanadora == 0:
                     save_image(image, target_folder_high_conf, "Baches")
                 elif DeteccionGanadora == 2:
-                    save_image(image, r'E:\ImagenesClasificacionPorModelos\ModeloV5\ImagenesResultados\CalleBien', "CalleBien")
+                    save_image(image, dirCalleBien, "CalleBien")
                 elif DeteccionGanadora == 1:
-                    save_image(image, r'E:\ImagenesClasificacionPorModelos\ModeloV5\ImagenesResultados\Grietas', "Grietas")
+                    save_image(image, dirGrietas, "Grietas")
             else:
                 # If the top prediction is below the confidence threshold, save to a separate folder
-                save_image(image, r'E:\ImagenesClasificacionPorModelos\ModeloV5\ImagenesResultados\NoIdentificadas', "NoIdentificadas")
+                save_image(image, dirNoIdentificadas, "NoIdentificadas")
