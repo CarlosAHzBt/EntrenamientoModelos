@@ -18,7 +18,7 @@ os.makedirs(detected_coords_folder, exist_ok=True)
 os.makedirs(no_identificadas_folder, exist_ok=True)
 
 # Itera sobre todas las carpetas y archivos en la carpeta raíz
-for foldername, subfolders, filenames in os.walk(root_folder):
+for foldername, subfolders, filenames in os.walk(source_folder):
     for filename in filenames:
         if filename.lower().endswith(('.png', '.jpg', '.jpeg')):
             image_path = os.path.join(foldername, filename)
@@ -49,4 +49,4 @@ for foldername, subfolders, filenames in os.walk(root_folder):
                     cv2.imwrite(os.path.join(no_identificadas_folder, filename), frame)
 
 # Mensaje al finalizar el procesamiento
-print("Procesamiento completo, imágenes y txt guardados en:", target_folder_images, target_folder_txt, target_folder_no_identificadas)
+print("Procesamiento completo, imágenes y txt guardados en:", target_folder, detected_coords_folder, no_identificadas_folder)
