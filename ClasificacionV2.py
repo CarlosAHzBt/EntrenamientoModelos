@@ -3,17 +3,19 @@ from PIL import Image
 import os
 
 # Load YOLO model
-model = YOLO(r"E:\Modelo Clasificacion\ModeloV5\train\weights\best.pt")
+model = YOLO(r"/media/mcc/ELITE SE880/Modelo Clasificacion/ModeloV4/train17/weights/best.pt")
 
 # Paths to your image folders
-source_folder = r'E:\Imagenes\Imagenes - copia'
-target_folder_high_conf = r'E:\ImagenesClasificacionPorModelos\ModeloV5\ImagenesResultados\BachesPrueba2'
-
+source_folder = r'/media/mcc/ELITE SE880/8feb/imagenes'
+ruta_no_identificadas = r'/media/mcc/ELITE SE880/8feb/ModeloV4/imagenesResultados/NoIdentificadas'
+target_folder_high_conf = r'/media/mcc/ELITE SE880/8feb/ModeloV4/imagenesResultados/Baches'
+ruta_calle_bien = r'/media/mcc/ELITE SE880/8feb/ModeloV4/imagenesResultados/CalleBien'
+ruta_grietas = r'/media/mcc/ELITE SE880/8feb/ModeloV4/imagenesResultados/Grietas' 
 # Ensure target folders exist
 os.makedirs(target_folder_high_conf, exist_ok=True)
-os.makedirs(r'E:\ImagenesClasificacionPorModelos\ModeloV5\ImagenesResultados\CalleBien' , exist_ok=True)
-os.makedirs(r'E:\ImagenesClasificacionPorModelos\ModeloV5\ImagenesResultados\Grietas' , exist_ok=True)
-os.makedirs(r'E:\ImagenesClasificacionPorModelos\ModeloV5\ImagenesResultados\NoIdentificadas' , exist_ok=True)
+os.makedirs(ruta_calle_bien , exist_ok=True)
+os.makedirs(ruta_grietas , exist_ok=True)
+os.makedirs(ruta_no_identificadas , exist_ok=True)
 
 # Counters for each classification
 counters = {
@@ -37,18 +39,18 @@ for root, dirs, files in os.walk(source_folder):
             image = Image.open(image_path)
 
             # Perform detection
-            results = model.predict(source=image, conf=0.9)
+            results = model.predict(source=image, conf=0.5)
             DeteccionGanadora = results[0].probs.top1
             ConfianzaGanadora = results[0].probs.top1conf.item()
 
             # Check if detections were found
-            if ConfianzaGanadora >= 0.6:
+            if ConfianzaGanadora >= 0.1:
                 if DeteccionGanadora == 0:
                     save_image(image, target_folder_high_conf, "Baches")
                 elif DeteccionGanadora == 2:
-                    save_image(image, r'E:\ImagenesClasificacionPorModelos\ModeloV5\ImagenesResultados\CalleBien', "CalleBien")
+                    save_image(image, ruta_calle_bien , "CalleBien")
                 elif DeteccionGanadora == 1:
-                    save_image(image, r'E:\ImagenesClasificacionPorModelos\ModeloV5\ImagenesResultados\Grietas', "Grietas")
+                    save_image(image, ruta_grietas, "Grietas")
             else:
                 # If the top prediction is below the confidence threshold, save to a separate folder
-                save_image(image, r'E:\ImagenesClasificacionPorModelos\ModeloV5\ImagenesResultados\NoIdentificadas', "NoIdentificadas")
+                save_image(image, ruta_no_identificadas, "NoIdentificadas")
